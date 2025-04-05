@@ -1,8 +1,6 @@
 package test1;
 
 import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.List;
 
@@ -13,9 +11,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 
 public class DemoSelenium {
 
@@ -24,68 +24,82 @@ public class DemoSelenium {
 	        WebDriver driver = new ChromeDriver();
 	        
 	        try {
-	          
-	            driver.get("https://www.saucedemo.com/");
+	        	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	            driver.get("https://rahulshettyacademy.com/locatorspractice/");
 	            System.out.println(driver.getTitle());
 	            System.out.println(driver.getCurrentUrl());
 	            driver.manage().window().maximize();
-	          
-	  
-	                driver.findElement(By.id("user-name")).sendKeys("standard_user");
-
-	             
-	                driver.findElement(By.id("password")).sendKeys("secret_sauce");
-
-	              
-	                driver.findElement(By.id("login-button")).click();
-	                
-
-		            List<WebElement> links =driver.findElements(By.tagName("a"));
-		            System.out.println("total num of links" + links.size());
-		            
-		            List<WebElement> image =driver.findElements(By.tagName("img"));
-		            System.out.println("total num of links" + image.size());
-
-	             
+	                driver.findElement(By.id("inputUsername")).sendKeys("megamohan23@gmail.com");
+	                driver.findElement(By.name("inputPassword")).sendKeys("mega");
+	                driver.findElement(By.xpath("//*[@id=\"container\"]/div[2]/form/button")).click();
+	                System.out.println(driver.findElement(By.cssSelector("p.error")).getText());
+	                driver.findElement(By.linkText("Forgot your password?")).click();
+	                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	                driver.findElement(By.xpath("//*[@id=\"container\"]/div[1]/form/input[1]")).sendKeys("Mega");
+	                driver.findElement(By.xpath("//*[@id=\"container\"]/div[1]/form/input[2]")).sendKeys("megamohan23@gmail.com");
+	                driver.findElement(By.xpath("//*[@id=\"container\"]/div[1]/form/input[3]")).sendKeys("7397556167");
+	                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	                WebElement loginBtn = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".go-to-login-btn")));
+	                loginBtn.click();
+	                Thread.sleep(2000);
+	                driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+	                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	                WebElement staticdropdown = driver.findElement(By.name("ctl00$mainContent$DropDownListCurrency"));
+	                Select dropdown = new Select(staticdropdown);
+	                dropdown.selectByIndex(1);
+	                System.out.println(dropdown.getFirstSelectedOption().getText());
 	                
-	                WebElement menuButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("react-burger-menu-btn")));
-	                menuButton.click();
-	                System.out.println("Open Menu button clicked successfully!");
-	                Thread.sleep(1000);
+	                 Thread.sleep(1000);
+	                 driver.findElement(By.id("divpaxinfo")).click();
+	                 int adult=1;
+	                 while(adult<5)
+	                 {
+	                	 driver.findElement(By.id("hrefIncAdt")).click();
+	                	 adult++;
+	                 }
+	                 driver.findElement(By.id("btnclosepaxoption")).click();
+	                
 
-	           
-	                WebElement sidebar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("bm-menu-wrap")));
-	                if (sidebar.isDisplayed()) {
-	                    System.out.println("Sidebar menu is visible.");
-	                } else {
-	                    System.out.println(" Sidebar menu is NOT visible.");
-	                }
-	                Thread.sleep(1000);
+	                 WebDriverWait waitbutton = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+	                 driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+	                 WebElement Option1 = waitbutton.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"dropdownGroup1\"]/div/ul[1]/li[9]/a")));
+	                 Option1.click();
 	               
-	                String[] menuItems = {"inventory_sidebar_link", "about_sidebar_link", "logout_sidebar_link", "reset_sidebar_link"};
+	                 WebElement Option2 = waitbutton.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@value='MAA'])[2]")));
+	                 Option2.click();
+	                 
+	           
+	                 //checkbox
+	                 driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
+	                 
+	                 System.out.println(driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected());
+	               
+	                 System.out.println(driver.findElements(By.cssSelector("input[type*='checkbox']")).size());
+	                 
+	                 //autosuggest
+	                 driver.findElement(By.id("autosuggest")).sendKeys("ind");
 
-	                for (String itemId : menuItems) {
-	                    WebElement menuItem = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(itemId)));
-	                    if (menuItem.isDisplayed()) {
-	                        System.out.println(menuItem.getText() + "' is present in the menu.");
-	                    } else {
-	                        System.out.println( itemId + "' is missing in the menu.");
-	                    }
-	                }
+	                 Thread.sleep(3000);
 
-	          
-	                WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("react-burger-cross-btn")));
-	                closeButton.click();
-	                System.out.println("✅ Close Menu (X) button clicked successfully!");
+	                 List<WebElement> options =driver.findElements(By.cssSelector("li[class='ui-menu-item'] a"));
+                     for(WebElement option :options)
+	                 {
+	                 if(option.getText().equalsIgnoreCase("India"))
+	                 {
+	                 option.click();
+	                 break;
+	                 }
+	                 }
+            
+
+         
+       } finally {
 	            
-	            
-	        } finally {
-	            
-	            driver.quit();
-	        }
-	        }
+            driver.quit();
+        }
+        }
 	}
 
 
