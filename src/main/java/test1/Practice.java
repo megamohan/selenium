@@ -60,18 +60,21 @@ public class Practice {
 		 Select dropdown = new Select(dropdown1);
 		 dropdown.selectByIndex(1);
 		 System.out.println(dropdown.getFirstSelectedOption().getText());
+		 
+		  //radio button
+         driver.findElement(By.xpath("//*[@id=\"radio-btn-example\"]/fieldset/label[1]/input")).click();
+         System.out.println( driver.findElement(By.xpath("//*[@id=\"radio-btn-example\"]/fieldset/label[1]/input")).isSelected());
+         
 		
 	 
 //		 //open window 
 		 
-        WebElement openwindow = wait.until(ExpectedConditions.elementToBeClickable(By.id("openwindow")));
-        Thread.sleep(2000);
+        WebElement opentab = wait.until(ExpectedConditions.elementToBeClickable(By.id("openwindow")));
+        driver.navigate().to("https://www.qaclickacademy.com/");
+        System.out.println(driver.getCurrentUrl());
   
-         
-         //radio button
-         driver.findElement(By.xpath("//*[@id=\"radio-btn-example\"]/fieldset/label[1]/input")).click();
-         System.out.println( driver.findElement(By.xpath("//*[@id=\"radio-btn-example\"]/fieldset/label[1]/input")).isSelected());
-         
+        
+          
 
 		 driver.quit();
 		 
